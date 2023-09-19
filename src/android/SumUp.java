@@ -11,10 +11,10 @@ import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.PluginResult.Status;
 
-import com.sumup.merchant.api.SumUpState;
-import com.sumup.merchant.api.SumUpAPI;
-import com.sumup.merchant.api.SumUpLogin;
-import com.sumup.merchant.api.SumUpPayment;
+import com.sumup.merchant.reader.api.SumUpState;
+import com.sumup.merchant.reader.api.SumUpAPI;
+import com.sumup.merchant.reader.api.SumUpLogin;
+import com.sumup.merchant.reader.api.SumUpPayment;
 import com.sumup.merchant.cardreader.ReaderLibManager;
 import com.sumup.merchant.CoreState;
 import com.sumup.merchant.Models.TransactionInfo;
@@ -84,8 +84,12 @@ public class SumUp extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         boolean result = false;
 
-        String affiliateKey = this.cordova.getActivity().getString(cordova.getActivity().getResources()
-                .getIdentifier("SUMUP_API_KEY", "string", cordova.getActivity().getPackageName()));
+        try {
+            String affiliateKey = this.cordova.getActivity().getString(cordova.getActivity().getResources()
+                    .getIdentifier("SUMUP_API_KEY", "string", cordova.getActivity().getPackageName()));
+        } catch(Exception e) {
+            String affiliateKey = "";
+        }
 
         switch(Action.valueOf(action)){
             case login:
